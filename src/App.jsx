@@ -23,7 +23,7 @@ let results = localAnswers || [];
 
 function App() {
   const dispatch = useDispatch();
-  const [ageNumber, setAgeNumber] = useState(5);
+  const [ageNumber, setAgeNumber] = useState(10);
   const [ageCategory, setAgeCategory] = useState("");
   const [value, setValue] = useState("");
   const [page, setPage] = useState(1);
@@ -37,13 +37,12 @@ function App() {
       )
       .then((data) => {
         data.data.results.forEach(
-          (item, index) =>
+          (item) =>
             item.incorrect_answers.splice(
               Math.floor(Math.random() * 4),
               0,
               item.correct_answer
             )
-          // (item.isCurrect = "false")
         );
         dispatch(informationActions.setInformations(data.data.results));
       })
@@ -56,7 +55,7 @@ function App() {
 
   const oneQuestion = selector.slice(page - 1, page);
   const oneQuestionResult = commonResults.slice(page - 1, page);
-  console.log(value);
+
 
   const selectedAnswers = [];
   const handleChange = (event, numberPage) => {

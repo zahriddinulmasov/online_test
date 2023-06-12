@@ -69,6 +69,7 @@ export const Top = ({
             labelId="demo-select-small-label"
             id="demo-select-small"
             value={ageCategory}
+            defaultValue=""
             label="Select Category"
             onChange={handleChangeCategory}
           >
