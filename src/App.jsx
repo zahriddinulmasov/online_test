@@ -23,14 +23,16 @@ let results = localAnswers || [];
 
 function App() {
   const dispatch = useDispatch();
-  const [ageNumber, setAgeNumber] = useState(10);
+  const [ageNumber, setAgeNumber] = useState(5);
   const [ageCategory, setAgeCategory] = useState("");
+  const [allCategory, setAllCategory] = useState([]);
   const [value, setValue] = useState("");
   const [page, setPage] = useState(1);
   const [currentQuestions, setCurrentQuestions] = useState(0);
   const [commonResults, setCommonResults] = useState([]);
 
   useEffect(() => {
+    // I wanted to get the api from the .env, but Netflix didn't release the api!
     axios
       .get(
         `https://opentdb.com/api.php?amount=${ageNumber}&category=${ageCategory}`
@@ -61,9 +63,7 @@ function App() {
       const newAsnwer = { id: page, isCorrect: "false", answer: value };
 
       results = results.filter((item) => item.id !== page);
-      // console.log(result);
       results.push(newAsnwer);
-      // localStorage.setItem("answer", JSON.stringify(results));
     }
 
     const desiredPage =
@@ -106,28 +106,46 @@ function App() {
     return correct;
   };
 
-  const handleResult = (evt) => {
-    handleChange();
-    getResult(selector);
-    setCurrentQuestions(getResult(selector));
-  };
+  const sendTelegram =(numberCorrectAnswer) => {
+    const nameCategory = allCategory.find(item => item.id === ageCategory)
+    console.log(numberCorrectAnswer);
 
-  const handleAnswer = (evt) => {
-    for (let item of commonResults) {
-      console.log(item);
-    }
-  };
-  handleAnswer();
+    let comResult = `<b>Overall result👇</b>\n\n `;
+    comResult += `<i>📜 Category: </i><b>${ageCategory >= 9 ? nameCategory.name : "Any category"}</b>\n`;
+    comResult += `<i>🔃 Total: </i><b>${ageNumber}</b>\n `;
+    comResult += `<i>✔ Current: </i><b>${numberCorrectAnswer}</b>\n`;
+    comResult += `<i>❌ Wrong: </i><b>${
+      selector.length - numberCorrectAnswer
+    }</b>`;
+
+    const TOKEN = "6276563576:AAFKhWHTTqkQ4zVtGk2HEyacNNub9WcE_tw";
+    const CHAT_ID = "-1001908803674";
+    let URL_API = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
+
+    axios.post(URL_API, {
+      chat_id: CHAT_ID,
+      parse_mode: "html",
+      text: comResult,
+    });
+  }
+
+      const handleResult = () => {
+        handleChange();
+        setCurrentQuestions(getResult(selector));
+        sendTelegram(getResult(selector));
+      };
 
   return (
     <AppWrapper>
       <SiteTitle>Solve the test!</SiteTitle>
 
       <Top
-        setAgeNumber={setAgeNumber}
         ageNumber={ageNumber}
-        setAgeCategory={setAgeCategory}
+        setAgeNumber={setAgeNumber}
+        allCategory={allCategory}
+        setAllCategory={setAllCategory}
         ageCategory={ageCategory}
+        setAgeCategory={setAgeCategory}
         totalResult={selector.length}
         currentQuestion={currentQuestions}
         setQuestion={selector.length - currentQuestions}

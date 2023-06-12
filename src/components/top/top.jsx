@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -14,20 +14,22 @@ import {
 } from "./top.styled";
 
 export const Top = ({
-  setAgeNumber,
   ageNumber,
-  setAgeCategory,
+  setAgeNumber,
+  allCategory,
+  setAllCategory,
   ageCategory,
+  setAgeCategory,
   totalResult,
   setQuestion,
   currentQuestion,
 }) => {
-  const [categories, setCategories] = useState([]);
+  // console.log(allCategory, ageCategory);
 
   useEffect(() => {
     fetch("https://opentdb.com/api_category.php")
       .then((res) => res.json())
-      .then((data) => setCategories(data.trivia_categories))
+      .then((data) => setAllCategory(data.trivia_categories))
       .catch((err) => console.log(err));
 
     // eslint-disable-next-line
@@ -73,9 +75,9 @@ export const Top = ({
             onChange={handleChangeCategory}
           >
             <MenuItem value="">
-              <em>Mixed category</em>
+              <em>Any category</em>
             </MenuItem>
-            {categories.map((item, index) => (
+            {allCategory.map((item, index) => (
               <MenuItem sx={{ maxWidth: "250px" }} value={item.id} key={index}>
                 {item.name}
               </MenuItem>
