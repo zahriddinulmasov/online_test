@@ -33,16 +33,15 @@ function App() {
   useEffect(() => {
     axios
       .get(
-        `${process.env.REACT_APP_URL}?amount=${ageNumber}&category=${ageCategory}`
+        `https://opentdb.com/api.php?amount=${ageNumber}&category=${ageCategory}`
       )
       .then((data) => {
-        data.data.results.forEach(
-          (item) =>
-            item.incorrect_answers.splice(
-              Math.floor(Math.random() * 4),
-              0,
-              item.correct_answer
-            )
+        data.data.results.forEach((item) =>
+          item.incorrect_answers.splice(
+            Math.floor(Math.random() * 4),
+            0,
+            item.correct_answer
+          )
         );
         dispatch(informationActions.setInformations(data.data.results));
       })
@@ -55,7 +54,6 @@ function App() {
 
   const oneQuestion = selector.slice(page - 1, page);
   const oneQuestionResult = commonResults.slice(page - 1, page);
-
 
   const selectedAnswers = [];
   const handleChange = (event, numberPage) => {
@@ -193,11 +191,8 @@ function App() {
 
       <AnswerWrapper>
         {commonResults.map((item) => (
-          <AnswerBtn
-            key={item.id}
-            id={item.id}
-          >
-            {item.id}.{` ${item.isCorrect === "true" ?  "✔" : "❌"}`}
+          <AnswerBtn key={item.id} id={item.id}>
+            {item.id}.{` ${item.isCorrect === "true" ? "✔" : "❌"}`}
           </AnswerBtn>
         ))}
       </AnswerWrapper>
