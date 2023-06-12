@@ -41,10 +41,10 @@ export const AnswerWrapper = styled.div`
   padding: 0;
   list-style: none;
   display: flex;
+  flex-wrap: wrap;
 `;
 
 export const AnswerBtn = styled.p`
-margin: 8px;
-font-weight: 600;
-
+  margin: 8px;
+  font-weight: 600;
 `;

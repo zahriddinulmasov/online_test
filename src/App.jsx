@@ -23,7 +23,7 @@ let results = localAnswers || [];
 
 function App() {
   const dispatch = useDispatch();
-  const [ageNumber, setAgeNumber] = useState(5);
+  const [ageNumber, setAgeNumber] = useState(10);
   const [ageCategory, setAgeCategory] = useState("");
   const [allCategory, setAllCategory] = useState([]);
   const [value, setValue] = useState("");
