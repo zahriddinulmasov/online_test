@@ -37,7 +37,7 @@ export const Bottom = styled.div`
 export const AppButton = styled(Button)``;
 
 export const AnswerWrapper = styled.div`
-  margin: 20px 0;
+  margin: 20px 0 8px;
   padding: 0;
   list-style: none;
   display: flex;
@@ -47,4 +47,17 @@ export const AnswerWrapper = styled.div`
 export const AnswerBtn = styled.p`
   margin: 8px;
   font-weight: 600;
+`;
+
+export const ResultTelegram = styled.p`
+  margin: 0;
+  font-weight: 600;
+  font-size: 16px;
+`;
+
+export const ResultTelegramLink = styled.a`
+  margin: 0 0 0 12px;
+  font-weight: 600;
+  font-size: 18px;
+  color: blue;
 `;

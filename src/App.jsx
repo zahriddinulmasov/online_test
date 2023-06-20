@@ -11,6 +11,8 @@ import {
   AppButton,
   AppWrapper,
   Bottom,
+  ResultTelegram,
+  ResultTelegramLink,
   SiteTitle,
 } from "./app.styled";
 import { TestCard } from "./components/testCard/testCard";
@@ -106,12 +108,14 @@ function App() {
     return correct;
   };
 
-  const sendTelegram =(numberCorrectAnswer) => {
-    const nameCategory = allCategory.find(item => item.id === ageCategory)
+  const sendTelegram = (numberCorrectAnswer) => {
+    const nameCategory = allCategory.find((item) => item.id === ageCategory);
     console.log(numberCorrectAnswer);
 
     let comResult = `<b>Overall result👇</b>\n\n `;
-    comResult += `<i>📜 Category: </i><b>${ageCategory >= 9 ? nameCategory.name : "Any category"}</b>\n`;
+    comResult += `<i>📜 Category: </i><b>${
+      ageCategory >= 9 ? nameCategory.name : "Any category"
+    }</b>\n`;
     comResult += `<i>🔃 Total: </i><b>${ageNumber}</b>\n `;
     comResult += `<i>✔ Current: </i><b>${numberCorrectAnswer}</b>\n`;
     comResult += `<i>❌ Wrong: </i><b>${
@@ -127,13 +131,13 @@ function App() {
       parse_mode: "html",
       text: comResult,
     });
-  }
+  };
 
-      const handleResult = () => {
-        handleChange();
-        setCurrentQuestions(getResult(selector));
-        sendTelegram(getResult(selector));
-      };
+  const handleResult = () => {
+    handleChange();
+    setCurrentQuestions(getResult(selector));
+    sendTelegram(getResult(selector));
+  };
 
   return (
     <AppWrapper>
@@ -207,13 +211,23 @@ function App() {
         </AppButton>
       </Bottom>
 
-      <AnswerWrapper>
-        {commonResults.map((item) => (
-          <AnswerBtn key={item.id} id={item.id}>
-            {item.id}.{` ${item.isCorrect === "true" ? "✔" : "❌"}`}
-          </AnswerBtn>
-        ))}
-      </AnswerWrapper>
+      {commonResults.length > 0 && (
+        <>
+          <AnswerWrapper>
+            {commonResults.map((item) => (
+              <AnswerBtn key={item.id} id={item.id}>
+                {item.id}.{` ${item.isCorrect === "true" ? "✔" : "❌"}`}
+              </AnswerBtn>
+            ))}
+          </AnswerWrapper>
+          <ResultTelegram style={{}}>
+            You can also see the result on the telegram channel!
+            <ResultTelegramLink href="https://t.me/+8UxymlM-H805ODZi">
+              ➡Kanal
+            </ResultTelegramLink>
+          </ResultTelegram>
+        </>
+      )}
     </AppWrapper>
   );
 }
